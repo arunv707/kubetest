@@ -32,6 +32,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build and push the image to GitHub Container Registry
       run: |
+        env
         # sudo docker login -u $git_user -p $git_token ghcr.io
         sudo docker build -t $PACKAGE:$git_commit -f $DOCKERFILE .
         sudo docker push $PACKAGE:$git_commit
