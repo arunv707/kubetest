@@ -1,21 +1,13 @@
 name: Deploy to ECR
-
-
 on:
- 
   push:
     branches: [ master ]
-
 env:
   ECR_REPOSITORY: kubetest
   EKS_CLUSTER_NAME: stg-m4marry-k8s
   AWS_REGION: ap-south-1
-
 jobs:
-
-  
   build:
-    
     name: Deployment
     #runs-on: ubuntu-latest
     runs-on: self-hosted
@@ -27,43 +19,9 @@ jobs:
 
     - name: Check out code
       uses: actions/checkout@v2
-    
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{env.AWS_REGION}}
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag, and push image to Amazon ECR
+    - name: testing
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
-        IMAGE_TAG: ${{ steps.commit.outputs.short }}
+        MULTILINE: multiline
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-    - name: Update kube config
-      run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
-
-    - name: Deploy to EKS
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
-        IMAGE_TAG: ${{ steps.commit.outputs.short }}
-        KUBECONFIG: kubeconfig
-      run: |
-        curl -L  https://dl.k8s.io/release/v1.17.0/bin/linux/amd64/kubectl --output ~/kubectl
-        chmod +x ~/kubectl
-        curl -o ~/aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
-        chmod +x ~/aws-iam-authenticator
-        ls -al ~/aws-iam-authenticator
-        env
-        ~/kubectl version
-        ~/kubectl config current-context
-        ~/kubectl config use-context `~/kubectl config current-context`
-        ~/kubectl config current-context
-        ~/kubectl apply -f deployment.yaml
+        echo $multiline > /tmp/kubeconfig
