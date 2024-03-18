@@ -24,6 +24,8 @@ jobs:
       env:
         MULTILINE: multiline
       run: |
-        env
-        echo "$multiline" > /tmp/kubeconfig
+        touch /tmp/kubeconfig
+        cat <<EOF > /tmp/kubeconfig
+        "$multiline"
+        EOF
         cat /tmp/kubeconfig
