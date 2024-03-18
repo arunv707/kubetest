@@ -6,7 +6,7 @@ env:
   ECR_REPOSITORY: kubetest
   EKS_CLUSTER_NAME: stg-m4marry-k8s
   AWS_REGION: ap-south-1
-  KUBECONFIG: ${{secrets.KUBECONFIG}}
+  KUBECONFIG: ${{secrets.MULTILINE}}
 jobs:
   build:
     name: Deployment
