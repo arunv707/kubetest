@@ -17,7 +17,7 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v4
       with: 
-        ref: development
+        ref: master
     - name: Set up Environment
       run: |
         git_commit=$(git rev-parse HEAD)
