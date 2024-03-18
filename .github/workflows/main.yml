@@ -6,6 +6,7 @@ env:
   ECR_REPOSITORY: kubetest
   EKS_CLUSTER_NAME: stg-m4marry-k8s
   AWS_REGION: ap-south-1
+  KUBECONFIG: ${{secrets.KUBECONFIG}}
 jobs:
   build:
     name: Deployment
@@ -24,8 +25,6 @@ jobs:
       env:
         MULTILINE: ${{env.KUBECONFIG}}
       run: |
-        touch /tmp/kubeconfig
-        cat <<EOF > /tmp/kubeconfig
-        "$MULTILINE"
-        EOF
+        echo "$KUBECONFIG" > /tmp/kubeconfig
         cat /tmp/kubeconfig
+        
