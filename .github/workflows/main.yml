@@ -26,6 +26,6 @@ jobs:
       run: |
         touch /tmp/kubeconfig
         cat <<EOF > /tmp/kubeconfig
-        "$multiline"
+        "$MULTILINE"
         EOF
         cat /tmp/kubeconfig
