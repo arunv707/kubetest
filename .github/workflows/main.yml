@@ -22,7 +22,7 @@ jobs:
 
     - name: testing
       env:
-        MULTILINE: multiline
+        MULTILINE: ${{ secrets.MULTILINE }}
       run: |
         touch /tmp/kubeconfig
         cat <<EOF > /tmp/kubeconfig
