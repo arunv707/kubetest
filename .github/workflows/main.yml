@@ -1,7 +1,4 @@
 name: Deploy
-on:
-   push:
-    branches: ${{env.BRANCH}}
 env:
   EKS_CLUSTER_NAME: NAD-SHARED-EKS-NLB
   AWS_REGION: ap-south-1
@@ -10,6 +7,9 @@ env:
   PACKAGE: ghcr.io/techm-to-nad/000000000028210-nad-rmg-v2/development-new
   DOCKERFILE: Dockerfile.final
   BRANCH: master
+on:
+   push:
+    branches: ${{env.BRANCH}}
 jobs:
   build:
     name: Deployment
