@@ -9,6 +9,7 @@ env:
   DEPLOYMENT: ${{secrets.DEPLOYMENT}}
   PACKAGE: ghcr.io/techm-to-nad/000000000028210-nad-rmg-v2/development-new
   DOCKERFILE: Dockerfile.final
+  BRANCH: $(echo test)
 jobs:
   build:
     name: Deployment
@@ -20,6 +21,7 @@ jobs:
         ref: master
     - name: Set up Environment
       run: |
+        echo $BRANCH
         git_commit=$(git rev-parse HEAD)
         git_branch=$(git symbolic-ref --short HEAD)
         git_user=${{secrets.git_user}}
