@@ -9,7 +9,7 @@ env:
   BRANCH: master
 on:
    push:
-    branches: ${{ github.ref_name }}
+    branches: master
 jobs:
   build:
     name: Deployment
