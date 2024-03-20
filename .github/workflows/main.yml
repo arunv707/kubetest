@@ -3,7 +3,7 @@ env:
   BRANCH: master
   DEPLOY_REPO: https://${{ secrets.GH_PAT }}@github.com/techm-to-nad/000000000028210-NAD-RMG-V2-Deploy
   DEPLOY_BRANCH: new-env
-  PACKAGE: ghcr.io/org-kubetest/migration-new
+  PACKAGE: ${{ secrets.GH_PAT }}@ghcr.io/org-kubetest/migration-new
   DOCKERFILE: Dockerfile
   DEPLOY_PATH: /tmp/deploy
   KUBECONFIG: ${{secrets.KUBECONFIG}}
