@@ -32,7 +32,7 @@ jobs:
           file: $DOCKERFILE
           push: true
           tags: |
-            ${{env.PACKAGE}}:$GITHUB_SHA
+            ${{env.PACKAGE}}:${{ github.sha }}
             ${{env.PACKAGE}}:latest
     - name: Setting up deployment yaml files
       run: |
