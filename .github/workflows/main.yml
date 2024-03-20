@@ -1,7 +1,7 @@
 name: Deployment Pipeline
 env:
   BRANCH: master
-  DEPLOY_REPO: https://${{ secrets.GITHUB_TOKEN }}@github.com/techm-to-nad/000000000028210-NAD-RMG-V2-Deploy
+  DEPLOY_REPO: https://${{ secrets.GH_PAT }}@github.com/techm-to-nad/000000000028210-NAD-RMG-V2-Deploy
   DEPLOY_BRANCH: new-env
   PACKAGE: ghcr.io/org-kubetest/migration-new
   DOCKERFILE: Dockerfile
