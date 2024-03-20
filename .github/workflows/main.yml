@@ -9,7 +9,7 @@ env:
   KUBECONFIG: ${{secrets.KUBECONFIG}}
 on:
    push:
-    branches: [ migration ]
+    branches: [ master ]
 jobs:
   build:
     name: Deployment
