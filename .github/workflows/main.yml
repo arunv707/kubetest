@@ -32,8 +32,8 @@ jobs:
           file: $DOCKERFILE
           push: true
           tags: |
-            $PACKAGE:$GITHUB_SHA
-            $PACKAGE:latest
+            ${{env.PACKAGE}}:$GITHUB_SHA
+            ${{env.PACKAGE}}:latest
     - name: Setting up deployment yaml files
       run: |
         rm -rf $DEPLOY_PATH && git clone --branch $BRANCH $DEPLOY_REPO $DEPLOY_PATH
