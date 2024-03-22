@@ -1,7 +1,7 @@
 name: Deployment Pipeline
 env:
   BRANCH: master
-  DEPLOY_REPO: https://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@github.com/techm-to-nad/000000000028210-NAD-RMG-V2-Deploy
+  DEPLOY_REPO: https://github.com/arunv707/kubetest
   DEPLOY_BRANCH: new-env
   PACKAGE: ghcr.io/org-kubetest/migration-new
   DOCKERFILE: Dockerfile
@@ -11,7 +11,7 @@ env:
 on: 
    workflow_dispatch:
    push:
-    branches: [ test ]
+    branches: [ master ]
 jobs:
   build:
     name: Deployment
