@@ -7,9 +7,10 @@ env:
   DOCKERFILE: Dockerfile
   DEPLOY_PATH: /tmp/deploy
   KUBECONFIG: ${{secrets.KUBECONFIG}}
-on:
-   push:
-    branches: [ master ]
+on: workflow_dispatch
+#on: 
+   #push:
+    #branches: [ master ]
 jobs:
   build:
     name: Deployment
