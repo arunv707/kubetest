@@ -29,6 +29,7 @@ jobs:
     - name: Setting up deployment yaml files
       run: |
         # rm -rf $DEPLOY_PATH && git clone --branch $DEPLOY_BRANCH $DEPLOY_REPO $DEPLOY_PATH
+        mkdir -p $DEPLOY_PATH/$BRANCH/
         echo "something that changes:latest" > $DEPLOY_PATH/$BRANCH/deployment.yaml
         sed -i "s/latest/${{ inputs.commit_id }}/g" $DEPLOY_PATH/$BRANCH/deployment.yaml
         # rm -rf $DEPLOY_PATH/$BRANCH/pod-autoscale.yaml
