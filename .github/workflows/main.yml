@@ -34,4 +34,5 @@ jobs:
     - name: Applying yaml files
       run: |
         cat $DEPLOY_PATH/$BRANCH/deployment.yaml
-        echo $KUBECONFIG
+        echo " file is $KUBECONFIG"
+        echo $DEPLOY_PATH/$BRANCH
