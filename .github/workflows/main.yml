@@ -36,3 +36,4 @@ jobs:
         cat $DEPLOY_PATH/$BRANCH/deployment.yaml
         echo " file is $KUBECONFIG"
         echo $DEPLOY_PATH/$BRANCH
+        sleep 60
