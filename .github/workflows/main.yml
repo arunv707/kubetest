@@ -10,7 +10,7 @@ on:
        commit_id:
          description: Commit ID of the image you want to deploy.
          required: true
-         type: environment
+         type: string
 jobs:
   build:
     name: Deployment
