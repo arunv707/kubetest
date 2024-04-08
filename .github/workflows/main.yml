@@ -1,57 +1,39 @@
-name: Deploy to ECR
-
-on:
- 
-  push:
-    branches: [ master ]
-
+name: PRODUCTION DEPLOYMENT
 env:
-  ECR_REPOSITORY: kubetest
-  EKS_CLUSTER_NAME: stg-m4marry-k8s
-  AWS_REGION: ap-south-1
-
+  # DEPLOY_REPO: https://${{ secrets.GH_PAT }}@github.com/techm-to-nad/000000000028210-NAD-RMG-V2-Deploy
+  DEPLOY_BRANCH: new-env-prod
+  DEPLOY_PATH: /tmp/deploy
+  KUBECONFIG: ${{secrets.KUBECONFIG_PROD}}
+on:
+   workflow_dispatch:
+     inputs:
+       commit_id:
+         description: Commit ID of the image you want to deploy.
+         required: true
+         type: string
 jobs:
-  
   build:
-    
     name: Deployment
-    runs-on: ubuntu-latest
-
+    runs-on: hifx-additional
     steps:
-
-    - name: Set short git commit SHA
-      id: commit
-      uses: prompt/actions-commit-hash@v2
-
-    - name: Check out code
-      uses: actions/checkout@v2
-    
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{env.AWS_REGION}}
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag, and push image to Amazon ECR
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
-        IMAGE_TAG: ${{ steps.commit.outputs.short }}
+    # - name: Check out to branch
+    #   uses: actions/checkout@v4
+    #   with: 
+    #     ref: ${{env.DEPLOY_BRANCH}}
+    # - name: Login to ghcr.io
+    #   uses: docker/login-action@v3 
+    #   with:
+    #       registry: ghcr.io
+    #       username: ${{ github.actor }}
+    #       password: ${{ secrets.GH_PAT }}
+    - name: Setting up deployment yaml files
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-    - name: Update kube config
-      run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
-
-    - name: Deploy to EKS
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
-        IMAGE_TAG: ${{ steps.commit.outputs.short }}
+        mkdir -p $DEPLOY_PATH/$BRANCH/
+        echo "ghcr.io/org-kubetest/migration-new:latest" > $DEPLOY_PATH/$BRANCH/deployment.yaml
+        sed -i "s/latest/${{ inputs.commit_id }}/g" $DEPLOY_PATH/$BRANCH/deployment.yaml
+    - name: Applying yaml files
       run: |
-        sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifests/hello-app-deployment.yaml && \
-        kubectl apply -f deployment.yaml
+        cat $DEPLOY_PATH/$BRANCH/deployment.yaml
+        echo " file is $KUBECONFIG"
+        echo $DEPLOY_PATH/$BRANCH
+        sleep 60
