@@ -1,4 +1,4 @@
-name: PRODUCTION DEPLOYMENT
+name: PRODUCTION DEPLOYMENT test 2
 env:
   # DEPLOY_REPO: https://${{ secrets.GH_PAT }}@github.com/techm-to-nad/000000000028210-NAD-RMG-V2-Deploy
   DEPLOY_BRANCH: master
